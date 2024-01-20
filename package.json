@@ -1,0 +1,9 @@
+{
+  "name": "VBS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/JaataLamine/VBS.git",
+  "author": "JaataLamine <alamine1409@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
