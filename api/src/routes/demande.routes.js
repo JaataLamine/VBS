@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
   deleteDemande,
-  createDemande,
+  faireDemande,
+  faireDemandeByForm,
   getDemande,
   getDemandes,
   updateDemande,
@@ -27,10 +28,16 @@ router.get("/", verifyAdmin, verifySuperAdmin, getDemandes);
 router.get("/:id", verifyUser, getDemande);
 
 /**
- * @route POST api/demande
- * @desc faire une demande
+ * @route POST api/demande/:serviceID
+ * @desc faire une demande by serviceID
  */
-router.post("/:serviceid", createDemande);
+router.post("/:serviceID", verifyUser, faireDemande);
+
+/**
+ * @route POST api/demande/form
+ * @desc faire une demande by formulaire
+ */
+router.post("/form", faireDemandeByForm);
 
 /**
  * @route PUT api/demande/:id

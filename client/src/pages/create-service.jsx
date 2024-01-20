@@ -1,69 +1,78 @@
 import { useState } from "react";
+import { Footer } from "../components/Footer";
 
 // Page de creation de service
 export const CreateService = () => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
 
   const onSubmit = async (e) => {
-    const data = new FormData();
-    data.set("name", name);
-    data.set("description", description);
-    data.set("imageUrl", imageUrl[0]);
     e.preventDefault();
-    // setLoading(true);
-    const res = await fetch("/api/service/create", {
-      method: "POST",
-      body: data,
-    });
-    await res.json();
-    // setLoading(false);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/service/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        setError(data.error);
+        return;
+      }
+      setFormData(data);
+      setLoading(false);
+      setError("Service created successfully");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
-        <h1 className="text-3xl text-center font-semibold my-7">
-          Creer un nouveau service
-        </h1>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          placeholder="Nom du service"
-          className="border p-3 rounded-lg"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <textarea
-          id="description"
-          value={description}
-          rows={5}
-          placeholder="Description du service"
-          className="border p-3 rounded-lg"
-          onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
-        <label htmlFor="imageUrl">Inserer une image : </label>
-        <input
-          id="imageUrl"
-          type="file"
-          accept="image/*"
-          className="p-3 rounded-lg"
-          onChange={(e) => setImageUrl(e.target.files)}
-        />
-        <button
-          // disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
-        >
-          {/* {loading ? "Loading..." : "Ajouter Service"} */}
-          Ajouter Service
-        </button>
-      </form>
-      {/* {error && (
-        <p className="text-red-500 mt-5 text-center font-semibold">{error}</p>
-      )} */}
-    </div>
+    <>
+      <div className="mb-10 p-3 max-w-lg mx-auto">
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+          <h1 className="text-3xl text-center font-semibold my-7">
+            Creer un nouveau service
+          </h1>
+          <input
+            id="name"
+            type="text"
+            placeholder="Nom du service"
+            className="border p-3 rounded-lg"
+            onChange={handleChange}
+          />
+          <textarea
+            id="description"
+            rows={5}
+            placeholder="Description du service"
+            className="border p-3 rounded-lg"
+            onChange={handleChange}
+          ></textarea>
+          <input
+            id="imageUrl"
+            type="text"
+            placeholder="Inserer une image"
+            className="border p-3 rounded-lg"
+            onChange={handleChange}
+          />
+          <button
+            disabled={loading}
+            className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          >
+            {loading ? "Loading..." : "Ajouter Service"}
+          </button>
+        </form>
+        {error && (
+          <p className="text-red-500 mt-5 text-center font-semibold">{error}</p>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };

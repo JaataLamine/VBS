@@ -15,20 +15,20 @@ const PrestataireSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    validation: {
+    serviceID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      required: true,
+    },
+    isValid: {
       type: Boolean,
       required: true,
       default: false,
     },
     isAvalaible: {
       type: Boolean,
-      required: true,
+      required: false,
       default: true,
-    },
-    service_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Service",
-      required: true,
     },
   },
   { timestamps: true }

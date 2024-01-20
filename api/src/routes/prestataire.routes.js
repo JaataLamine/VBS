@@ -1,9 +1,12 @@
 import { Router } from "express";
 import {
+  deletePrestataire,
   getPrestataires,
   pendingPrestataires,
   register,
+  validation,
 } from "../controllers/prestataire.controller.js";
+import { verifyAdmin, verifySuperAdmin } from "../utils/verifyToken.js";
 
 const router = Router();
 
@@ -12,7 +15,7 @@ const router = Router();
  * @desc affichage du tableau
  *           de prestataires
  */
-router.get("/", getPrestataires);
+router.get("/", verifyAdmin, verifySuperAdmin, getPrestataires);
 
 /**
  * @route GET api/prestataires/register
@@ -28,13 +31,20 @@ router.get("/pending", pendingPrestataires);
 router.post("/register", register);
 
 /**
- * @route PUT api/prestataires/register/:id
+ * @route PUT api/prestataires/:id
+ * @desc maj d'un prestataire
+ */
+router.patch("/validate/:id", validation);
+
+/**
+ * @route PUT api/prestataires/:id
  * @desc maj d'un prestataire
  */
 
 /**
- * @route DELETE api/prestataires/register/:id
+ * @route DELETE api/prestataires/:id
  * @desc suppression d'un prestataire
  */
+router.delete("/:id", verifySuperAdmin, deletePrestataire);
 
 export { router as prestataireRoute };

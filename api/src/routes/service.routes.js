@@ -5,7 +5,6 @@ import {
   createService,
   updateService,
   deleteService,
-  uploadMiddleware,
 } from "../controllers/service.controller.js";
 import { verifySuperAdmin } from "../utils/verifyToken.js";
 
@@ -30,12 +29,7 @@ router.get("/:id", getService);
  * @desc ajouter service
  * @access Public
  */
-router.post(
-  "/create",
-  verifySuperAdmin,
-  uploadMiddleware.single("imageUrl"),
-  createService
-);
+router.post("/create", verifySuperAdmin, createService);
 
 /**
  * @route PUT api/service/:id

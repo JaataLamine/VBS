@@ -28,49 +28,68 @@ export const Header = () => {
 
   return (
     <header className="bg-crose shadow-md">
-      <div className="flex justify-around items-center text-xl max-w-6xl h-24">
-        <Link to="/" className=" flex flex-col items-center">
-          <img
-            src="http://localhost:5173/images/signe.png"
-            alt="logo"
-            width={50}
-            height={40}
-          />
-          <span className="text-slate-700 font-bold text-2xl hidden sm:inline">
-            BESOINS SERVICES
-          </span>
-        </Link>
-        <ul className="flex gap-5 text-cvert">
-          <Link to="/create-demandes">
-            <li className="hover:underline">Demander un service</li>
+      <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+        <div className="relative flex items-center justify-between">
+          <Link to="/" className="inline-flex items-center">
+            <img
+              src="http://localhost:5173/images/signe.png"
+              alt="logo"
+              width={50}
+              height={40}
+            />
+            <span className="ml-2 text-xl font-bold tracking-wide text-slate-900 uppercase">
+              BESOINS SERVICES
+            </span>
           </Link>
-          <Link to="/create-prestataire">
-            <li className="hover:underline">Trouver un travail</li>
-          </Link>
-          {user ? (
-            <>
-              {user.isSuperAdmin ? (
-                <Link to="/create-service">
-                  <li className="hover:underline">Creer un service</li>
+          <ul className="flex items-center space-x-8 lg:flex md:inline-flex">
+            <Link to="/faire-demande">
+              <li className="font-medium tracking-wide text-slate-900">
+                Demander un service
+              </li>
+            </Link>
+            <Link to="/create-prestataire">
+              <li className="font-medium tracking-wide text-slate-900 btn btn-sm btn-link">
+                Trouver un travail
+              </li>
+            </Link>
+            <Link to="/saved-prestataire">
+              <li className="font-medium tracking-wide text-slate-900 btn btn-sm btn-link">
+                Prestataires
+              </li>
+            </Link>
+            {user ? (
+              <>
+                {user.isSuperAdmin ? (
+                  <Link to="/create-service">
+                    <li className="font-medium tracking-wide text-slate-900">
+                      Creer un service
+                    </li>
+                  </Link>
+                ) : (
+                  ""
+                )}
+                <Link to="/Profile" className="font-bold">
+                  <li className="relative inline-flex items-center justify-center w-full h-10 px-3 py-7 overflow-hidden bg-gray-100 rounded-full shadow-xl hover:bg-slate-700 hover:text-gray-100">
+                    <span className="font-medium">{user.username}</span>
+                  </li>
                 </Link>
-              ) : (
-                ""
-              )}
-              <Link to="/profile" className="font-bold">
-                {user.username}
-              </Link>
-              <Link onClick={signout}>
-                <li className="hover:underline">Deconnection</li>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/signin">
-                <li className="hover:underline">Connection</li>
-              </Link>
-            </>
-          )}
-        </ul>
+                <Link onClick={signout}>
+                  <li className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-lg bg-slate-700 hover:opacity-90 focus:shadow-outline focus:outline-none">
+                    Deconnection
+                  </li>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/signin">
+                  <li className="font-medium tracking-wide text-white transition-colors duration-200 inline-flex items-center justify-center h-12 px-6 tracking-wide rounded shadow-md bg-slate-700 hover:opacity-90 focus:shadow-outline focus:outline-none">
+                    Connection
+                  </li>
+                </Link>
+              </>
+            )}
+          </ul>
+        </div>
       </div>
     </header>
   );

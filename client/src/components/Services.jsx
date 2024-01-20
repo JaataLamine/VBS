@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { ServiceCard } from "./SerciceCard";
-// import { Link } from "react-router-dom";
 
 export const Services = () => {
   const [services, setServices] = useState([]);
@@ -18,6 +17,7 @@ export const Services = () => {
         console.error(error.message);
         setLoading(false);
       }
+      return services;
     };
     fetchServices();
   }, []);
@@ -28,6 +28,7 @@ export const Services = () => {
         VOS BESOINS SONT NOS MISSIONS
       </h1>
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
+        <h2 className="sr-only">Products</h2>
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -35,7 +36,7 @@ export const Services = () => {
             {services.map((service, idx) => (
               <ServiceCard
                 key={idx}
-                _id={service._id}
+                id={service._id}
                 imageUrl={service.imageUrl}
                 name={service.name}
               />

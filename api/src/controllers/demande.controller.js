@@ -1,15 +1,46 @@
 import { Demande } from "../models/Demande.js";
+import { DemandeByForm } from "../models/DemandeByForm.js";
 import { errorHandler } from "../utils/error.js";
 
 // Controller pour faire une demande
-export const createDemande = async (req, res, next) => {
+export const faireDemande = async (req, res, next) => {
+  const { serviceID, serviceName } = req.body;
   const newDemande = new Demande(req.body);
-  const serviceID = req.params.serviceid;
   try {
     const savedDemande = await newDemande.save();
     res.status(200).json(savedDemande);
   } catch (error) {
     next(errorHandler(500, "Impossible de faire la demande."));
+  }
+};
+
+// Controller pour faire une demande by form
+export const faireDemandeByForm = async (req, res, next) => {
+  try {
+    const { serviceName, username, address, phone, isComplete } = req.body;
+    if (!serviceName || !username || !address || !phone)
+      next(errorHandler(400, "Desole vous devez renseigner tous les champs!"));
+
+    const demandeByForm = await DemandeByForm.findOne({
+      serviceName,
+      username,
+      address,
+      phone,
+      isComplete,
+    });
+
+    if (demandeByForm) return next(errorHandler(404, "Demande deja effectuee"));
+
+    const newDemande = new Demande({
+      serviceName,
+      username,
+      address,
+      phone,
+    });
+    const savedDemande = await newDemande.save();
+    res.json(savedDemande);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -27,7 +58,7 @@ export const getDemandes = async (req, res, next) => {
 // Controller pour afficher une demande by id
 export const getDemande = async (req, res, next) => {
   try {
-    const demande = await Demande.findOne({ id: demande._id });
+    const demande = await Demande.findOne(req.params.id);
     res.status(200).json(demande);
   } catch (error) {
     next(error);

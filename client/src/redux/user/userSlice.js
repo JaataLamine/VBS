@@ -58,18 +58,6 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    // uploadImageStart: (state) => {
-    //   state.loading = true;
-    // },
-    // uploadImageSuccess: (state, action) => {
-    //   state.user = action.payload;
-    //   state.loading = false;
-    //   state.error = null;
-    // },
-    // uploadImageFailure: (state, action) => {
-    //   state.error = action.payload;
-    //   state.loading = false;
-    // },
   },
 });
 

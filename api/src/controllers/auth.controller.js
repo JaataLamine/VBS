@@ -10,7 +10,7 @@ export const signup = async (req, res, next) => {
   try {
     const user = await User.findOne({ username });
     // Verifier si le User existe
-    if (!user)
+    if (user)
       return next(
         errorHandler(400, "Desole ce non d'utilisateur existe deja.")
       );
@@ -22,7 +22,6 @@ export const signup = async (req, res, next) => {
       address,
       phone,
     });
-
     const savedUser = await newUser.save();
     res.json(savedUser);
   } catch (error) {

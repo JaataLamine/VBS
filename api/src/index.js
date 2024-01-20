@@ -3,9 +3,6 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import { dirname } from "node:path";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 dotenv.config();
 
 // Import des Routes
@@ -20,13 +17,9 @@ const app = express();
 // Do not identify Express
 app.disable("x-powered-by");
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 // Convertir les donnees en json
 app.use(express.json());
 app.use(cookieParser());
-// Static assets
-app.use("/uploads", express.static("uploads"));
 
 // Connect to MongoDB database
 const dbConnection = async () => {

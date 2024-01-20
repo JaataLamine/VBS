@@ -27,7 +27,7 @@ export const Footer = () => {
         </div>
         <div className="">
           <ul className="flex flex-col gap-8 text-cvert">
-            <Link to="/create-demandes">
+            <Link to="/faire-demande">
               <li className="hover:underline">Demander un service</li>
             </Link>
             <Link to="/create-prestataire">
